@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useCartStore } from '@/store/cart'
-import type { Product } from '@/store/products'
-import { toCurrency } from '@/shared/utils'
+import {apiUrl, toCurrency} from '@/shared/utils'
+import Product from "@/types/product";
 
 defineProps<{
   product: Product
@@ -14,7 +14,7 @@ const cartStore = useCartStore()
   <div class="card bordered ">
     <figure class="px-8 pt-10">
       <img
-        :src="product.image"
+        :src="`${apiUrl}/storage/${product.images[0].path_name}`"
         alt="Card Image"
         class="object-contain w-full h-64"
       >
