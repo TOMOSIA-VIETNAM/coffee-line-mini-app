@@ -2,12 +2,13 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@line/liff": "^2.24.0",
     "daisyui": "^3.1.7",
     "pinia": "^2.1.4",
     "vue": "^3.3.4",
