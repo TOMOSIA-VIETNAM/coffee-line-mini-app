@@ -1,15 +1,6 @@
 import { defineStore } from 'pinia'
-
-const fakeStoreUrl = 'https://fakestoreapi.com'
-
-export interface Product {
-  id: number
-  title: string
-  price: number
-  description: string
-  category: string
-  image: string
-}
+import {apiUrl, xApiKey} from "@/shared/utils";
+import Product from "@/types/product";
 
 interface ProductState {
   items: Record<string, Product>
@@ -39,9 +30,17 @@ export const useProductStore = defineStore({
       if (this.loaded)
         return
 
-      const res = await fetch(`${fakeStoreUrl}/products`)
-      const data: Product[] = await res.json()
-      this.ids = data.map((product) => {
+      const res = await fetch(`${apiUrl}/api/v1/products`,{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-KEY': xApiKey,
+        }
+      })
+
+      const dataRes: any = await res.json()
+      const data: Product[] = dataRes.data
+      this.ids = data.map((product: any) => {
         this.items[product.id] = product
         return product.id
       })

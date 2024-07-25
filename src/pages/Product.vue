@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-
 import { useCartStore } from '@/store/cart'
 import { useProductStore } from '@/store/products'
-import type { Product } from '@/store/products'
-import { toCurrency } from '@/shared/utils'
-
+import {apiUrl, toCurrency} from '@/shared/utils'
 import CartCardSkeleton from '@/components/CartCardSkeleton.vue'
+import Product from "@/types/product";
 
 const cartStore = useCartStore()
 const productStore = useProductStore()
@@ -27,7 +25,7 @@ const product = computed<Product>(
     <div v-else-if="product" class="card lg:card-side bordered">
       <figure class="px-10 pt-10">
         <img
-          :src="product.image"
+          :src="`${apiUrl}/storage/${product.images[0].path_name}`"
           alt="Card Image"
           class="object-contain w-full h-64"
         >
