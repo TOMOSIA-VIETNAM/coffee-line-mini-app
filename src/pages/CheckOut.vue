@@ -27,12 +27,12 @@
         <label class="block text-gray-700 font-bold">Phone Number <span class="text-red-700">*</span></label>
         <input
             type="text"
-            v-model="form.phone"
+            v-model="form.phone_number"
             class="w-full p-2 border border-gray-300 rounded mt-1"
-            :class="{'border-red-500': errors.phone}"
+            :class="{'border-red-500': errors.phone_number}"
             placeholder="Enter your phone number"
         />
-        <p v-if="errors.phone" class="text-red-500 text-sm">{{ errors.phone }}</p>
+        <p v-if="errors.phone" class="text-red-500 text-sm">{{ errors.phone_number }}</p>
       </div>
       <div class="mb-4">
         <ul>
@@ -55,24 +55,31 @@
 <script setup>
 import {computed, ref} from 'vue'
 import {useCartStore} from "@/store/cart";
-import {apiUrl, toCurrency} from "@/shared/utils";
+import {apiUrl, toCurrency, xApiKey} from "@/shared/utils";
+import {useRouter} from "vue-router";
 
 const cartStore = useCartStore()
 const formattedCart = computed(() => cartStore.formattedCart)
+const cart = computed(() => cartStore.cartContent)
+const route = useRouter()
 
 const form = ref({
   client_name: '',
   address: '',
-  phone: ''
+  phone_number: '',
+  shop_id: 1,
+  line_id: 'kb17thdecember',
+  items: cart.value
 })
 
 const errors = ref({
   client_name: '',
   address: '',
-  phone: ''
+  phone_number: ''
 })
+
 const validateForm = () => {
-  errors.value = { client_name: '', address: '', phone: '' }
+  errors.value = { client_name: '', address: '', phone_number: '' }
 
   let isValid = true
 
@@ -86,16 +93,28 @@ const validateForm = () => {
     isValid = false
   }
 
-  if (!form.value.phone) {
-    errors.value.phone = 'Phone is required'
+  if (!form.value.phone_number) {
+    errors.value.phone_number = 'Phone is required'
     isValid = false
   }
 
   return isValid
 }
-const handleSubmit = () => {
+
+const handleSubmit = async () => {
   if (validateForm()) {
-    console.log('Checkout Information:', form.value)
+    const res = await fetch(`${apiUrl}/api/v1/orders`, {
+       method: 'POST',
+       headers: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': xApiKey,
+       },
+       body: JSON.stringify(form.value)
+    })
+    if (res && res.status === 200){
+      await route.push('/')
+      cartStore.deleteAll()
+    }
   }
 }
 </script>
