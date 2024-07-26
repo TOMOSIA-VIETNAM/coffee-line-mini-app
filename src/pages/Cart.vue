@@ -31,6 +31,9 @@ const formattedCart = computed(() => cartStore.formattedCart)
       <div class="text-right text-2xl md:text-4xl">
         Total: {{ toCurrency(cartStore.total) }}
       </div>
+      <div class="text-right">
+        <router-link to="/checkout" class="btn">Check Out</router-link>
+      </div>
     </div>
   </div>
 </template>
