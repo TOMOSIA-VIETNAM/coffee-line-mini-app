@@ -57,6 +57,7 @@ import {computed, ref} from 'vue'
 import {useCartStore} from "@/store/cart";
 import {apiUrl, toCurrency, xApiKey} from "@/shared/utils";
 import {useRouter} from "vue-router";
+import axios from "axios";
 
 const cartStore = useCartStore()
 const formattedCart = computed(() => cartStore.formattedCart)
@@ -103,19 +104,18 @@ const validateForm = () => {
 }
 
 const handleSubmit = async () => {
-    const res = await fetch(`${apiUrl}/api/v1/orders`, {
-       method: 'POST',
-       body: JSON.stringify(form.value),
-       headers: {
+  if (validateForm()) {
+    const res = await axios.post(`${apiUrl}/api/v1/orders`, form.value, {
+      headers: {
         'Content-Type': 'application/json',
         'X-API-KEY': xApiKey,
-       }
+      }
     })
     if (res && res.status === 200){
       await route.push('/')
       cartStore.deleteAll()
     }
-
+  }
 }
 </script>
 
