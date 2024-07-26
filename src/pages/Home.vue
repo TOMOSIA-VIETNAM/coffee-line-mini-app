@@ -3,10 +3,19 @@ import { computed } from 'vue'
 import ProductCard from '@/components/ProductCard.vue'
 import ProductCardSkeleton from '@/components/ProductCardSkeleton.vue'
 import { useProductStore } from '@/store/products'
+import {useCategoryStore} from "@/store/categories";
 
 const productStore = useProductStore()
-
-const products = computed(() => productStore.list)
+const categoryStore = useCategoryStore();
+const products = computed(() => {
+  const selectedCategoryId = categoryStore.selectedCategory;
+  if (selectedCategoryId === null) {
+    return productStore.list;
+  }
+  return productStore.list.filter(
+      (product) => product.category_id === selectedCategoryId
+  );
+})
 </script>
 
 <template>
