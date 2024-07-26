@@ -51,7 +51,7 @@ export const useCartStore = defineStore({
 
         return {
           id: purchase.productId,
-          image: products.items[purchase.productId].image,
+          image: products.items[purchase.productId].images[0].path_name,
           title: products.items[purchase.productId].title,
           quantity: purchase.quantity,
           cost: purchase.quantity * products.items[purchase.productId].price,
