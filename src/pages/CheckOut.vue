@@ -2,7 +2,7 @@
   <div class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-4">Checkout Information</h2>
       <div class="mb-4">
-        <label class="block text-gray-700 font-bold">Client Name<span class="text-red-700">*</span></label>
+        <label class="block text-gray-700 font-bold">Name<span class="text-red-700">*</span></label>
         <input
             type="text"
             v-model="form.client_name"
@@ -32,7 +32,7 @@
             :class="{'border-red-500': errors.phone_number}"
             placeholder="Enter your phone number"
         />
-        <p v-if="errors.phone" class="text-red-500 text-sm">{{ errors.phone_number }}</p>
+        <p v-if="errors.phone_number" class="text-red-500 text-sm">{{ errors.phone_number }}</p>
       </div>
       <div class="mb-4">
         <ul>
