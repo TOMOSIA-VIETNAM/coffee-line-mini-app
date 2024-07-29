@@ -64,14 +64,14 @@ const cartStore = useCartStore()
 const formattedCart = computed(() => cartStore.formattedCart)
 const cart = computed(() => cartStore.cartContent)
 const route = useRouter()
-const lineId = ''
+const userProfile = await liff.getProfile();
 
 const form = ref({
   client_name: '',
   address: '',
   phone_number: '',
   shop_id: 1,
-  line_id: liff.getProfile().userId,
+  line_id: userProfile.userId,
   total_price: cartStore.total,
   items: cart.value
 })
