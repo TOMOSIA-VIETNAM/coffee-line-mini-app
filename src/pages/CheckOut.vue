@@ -57,18 +57,20 @@ import {computed, ref} from 'vue'
 import {useCartStore} from "@/store/cart";
 import {apiUrl, toCurrency, xApiKey} from "@/shared/utils";
 import {useRouter} from "vue-router";
+import liff from "@line/liff";
 
 const cartStore = useCartStore()
 const formattedCart = computed(() => cartStore.formattedCart)
 const cart = computed(() => cartStore.cartContent)
 const route = useRouter()
+const lineId = ''
 
 const form = ref({
   client_name: '',
   address: '',
   phone_number: '',
   shop_id: 1,
-  line_id: 'kb17thdecember',
+  line_id: liff.getProfile().userId,
   items: cart.value
 })
 
