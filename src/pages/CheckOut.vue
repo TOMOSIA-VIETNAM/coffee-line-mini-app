@@ -58,6 +58,7 @@ import {useCartStore} from "@/store/cart";
 import {apiUrl, toCurrency, xApiKey} from "@/shared/utils";
 import {useRouter} from "vue-router";
 import liff from "@line/liff";
+import axios from "axios";
 
 const cartStore = useCartStore()
 const formattedCart = computed(() => cartStore.formattedCart)
@@ -71,6 +72,7 @@ const form = ref({
   phone_number: '',
   shop_id: 1,
   line_id: liff.getProfile().userId,
+  total_price: cartStore.total,
   items: cart.value
 })
 
@@ -105,13 +107,11 @@ const validateForm = () => {
 
 const handleSubmit = async () => {
   if (validateForm()) {
-    const res = await fetch(`${apiUrl}/api/v1/orders`, {
-       method: 'POST',
-       headers: {
+    const res = await axios.post(`${apiUrl}/api/v1/orders`, form.value, {
+      headers: {
         'Content-Type': 'application/json',
         'X-API-KEY': xApiKey,
-       },
-       body: JSON.stringify(form.value)
+      }
     })
     if (res && res.status === 200){
       await route.push('/')
