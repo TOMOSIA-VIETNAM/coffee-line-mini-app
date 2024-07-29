@@ -52,8 +52,8 @@
   </div>
 </template>
 
-<script setup>
-import {computed, ref} from 'vue'
+<script setup lang="ts">
+import {computed, onMounted, ref} from 'vue'
 import {useCartStore} from "@/store/cart";
 import {apiUrl, toCurrency, xApiKey} from "@/shared/utils";
 import {useRouter} from "vue-router";
@@ -64,14 +64,14 @@ const cartStore = useCartStore()
 const formattedCart = computed(() => cartStore.formattedCart)
 const cart = computed(() => cartStore.cartContent)
 const route = useRouter()
-const userProfile = await liff.getProfile();
+const lineId = ref<string|null>(null);
 
 const form = ref({
   client_name: '',
   address: '',
   phone_number: '',
   shop_id: 1,
-  line_id: userProfile.userId,
+  line_id: lineId,
   total_price: cartStore.total,
   items: cart.value
 })
@@ -80,6 +80,11 @@ const errors = ref({
   client_name: '',
   address: '',
   phone_number: ''
+})
+
+onMounted(async ()=>{
+  const userProfile = await liff.getProfile();
+  lineId.value = userProfile.userId;
 })
 
 const validateForm = () => {
