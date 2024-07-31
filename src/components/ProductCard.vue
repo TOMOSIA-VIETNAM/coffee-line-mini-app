@@ -11,14 +11,14 @@ const toast = useToast();
 
 const showSuccess = (id: any) => {
   cartStore.add(id)
-  toast.add({ severity: 'success', summary: 'Success Message', detail: 'Add Success', life: 3000 });
+  toast.add({ severity: 'success', summary: 'Success Message', detail: '1 item has been added to the cart.', life: 3000 });
 };
 const cartStore = useCartStore()
 </script>
 
 <template>
   <div class="card bordered ">
-    <figure class="px-8 pt-10" style="height: 379px !important;">
+    <figure class="px-8 pt-10" style="height: 300px !important;">
       <img
         :src="`${apiUrl}/storage/${product.images[0].path_name}`"
         alt="Card Image"

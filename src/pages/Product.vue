@@ -21,7 +21,7 @@ const toast = useToast();
 
 const showSuccess = (id) => {
   cartStore.add(id)
-  toast.add({ severity: 'success', summary: 'Success Message', detail: 'Add Success', life: 3000 });
+  toast.add({ severity: 'success', summary: 'Success Message', detail: '1 item has been added to the cart.', life: 3000 });
 };
 </script>
 
@@ -57,5 +57,20 @@ const showSuccess = (id) => {
       </h1>
     </div>
   </div>
-  <Toast />
+  <Toast/>
 </template>
+
+<style>
+.p-toast-message {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .p-toast-message {
+    width: 300px;
+    position: fixed;
+    top: 20px;
+    right: 10px;
+  }
+}
+</style>
