@@ -6,6 +6,8 @@ import { useProductStore } from '@/store/products'
 import {apiUrl, toCurrency} from '@/shared/utils'
 import CartCardSkeleton from '@/components/CartCardSkeleton.vue'
 import Product from "@/types/product";
+import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
 
 const cartStore = useCartStore()
 const productStore = useProductStore()
@@ -15,6 +17,12 @@ const route = useRoute()
 const product = computed<Product>(
   () => productStore.items[route.params.productId as string],
 )
+const toast = useToast();
+
+const showSuccess = (id) => {
+  cartStore.add(id)
+  toast.add({ severity: 'success', summary: 'Success Message', detail: 'Add Success', life: 3000 });
+};
 </script>
 
 <template>
@@ -37,7 +45,7 @@ const product = computed<Product>(
           {{ toCurrency(product.price) }}
         </p>
         <div class="card-actions">
-          <button class="btn btn-primary" @click="cartStore.add(product.id)">
+          <button class="btn btn-primary" @click="showSuccess(product.id)" severity="success">
             Add to Cart
           </button>
         </div>
@@ -49,4 +57,5 @@ const product = computed<Product>(
       </h1>
     </div>
   </div>
+  <Toast />
 </template>
