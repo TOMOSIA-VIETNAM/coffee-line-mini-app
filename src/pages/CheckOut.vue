@@ -103,10 +103,17 @@ const validateForm = () => {
   }
 
   if (!form.value.phone_number) {
-    errors.value.phone_number = 'Phone is required'
-    isValid = false
+    errors.value.phone_number = 'Phone number is required';
+    isValid = false;
   }
-
+  else if (!/^\d+$/.test(form.value.phone_number)) {
+    errors.value.phone_number = 'Phone number must be number';
+    isValid = false;
+  }
+  else if (form.value.phone_number.length !== 10) {
+    errors.value.phone_number = 'Phone number must be exactly 10 characters long';
+    isValid = false;
+  }
   return isValid
 }
 
@@ -119,7 +126,7 @@ const handleSubmit = async () => {
       }
     })
     if (res && res.status === 200){
-      await route.push('/')
+      await route.push('/success')
       cartStore.deleteAll()
     }
   }
