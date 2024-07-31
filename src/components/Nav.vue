@@ -34,7 +34,7 @@ const categories = computed(() => categoryStore.list)
       </div>
       <div class="flex-none px-2 mx-2">
       <span class="text-lg font-bold">
-        Shopping Cart</span>
+        TMS Coffee</span>
       </div>
       <div class="flex-1 lg:flex-none">
         <Search/>
