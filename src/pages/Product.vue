@@ -31,11 +31,12 @@ const showSuccess = (id) => {
       <CartCardSkeleton />
     </div>
     <div v-else-if="product" class="card lg:card-side bordered">
-      <figure class="px-10 pt-10">
+      <figure class="px-10 pt-10" style="height: auto">
         <img
           :src="`${apiUrl}/storage/${product.images[0].path_name}`"
           alt="Card Image"
           class="object-contain w-full h-64"
+          style="height: 230px;width: 230px;object-fit: cover;padding-bottom: 30px"
         >
       </figure>
       <div class="card-body">
