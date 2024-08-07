@@ -9,27 +9,26 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 
 liff
-    .init({ liffId: '2005903938-1NVll7Zy' })
+    .init({ liffId: import.meta.env.VITE_LIFF_ID })
     .then(() => {
+        const app = createApp(App);
+        app.config.globalProperties.$liff = liff;
+        app.use(createPinia())
+        app.use(router)
+        app.mount('#app')
         // if (!liff.isInClient()) {
         //     alert('Please open this application in LINE.');
         //     return;
         // }
-        if (!liff.isLoggedIn()) {
-            liff.login();
-        } else {
-            const app = createApp(App) as any;
-            app.config.globalProperties.$liff = liff;
-            app.use(createPinia())
-            app.use(router)
-            app.use(ToastService);
-            app.use(PrimeVue, {
-                theme: {
-                    preset: Aura
-                }
-            });
-            app.mount('#app');
-        }
+        // if (!liff.isLoggedIn()) {
+        //     liff.login();
+        // } else {
+        //     const app = createApp(App);
+        //     app.config.globalProperties.$liff = liff;
+        //     app.use(createPinia())
+        //     app.use(router)
+        //     app.mount('#app')
+        // }
     })
     .catch((err) => {
         console.error('LIFF Initialization failed', err);

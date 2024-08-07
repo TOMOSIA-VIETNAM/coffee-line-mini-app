@@ -21,7 +21,7 @@ const products = computed(() => {
 
 <template>
   <div class="p-4 max-w-7xl mx-auto">
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
       <h1 class="text-xl" v-if="!productStore.loaded ">All products are sold out</h1>
       <ProductCard
         v-for="product in products"
