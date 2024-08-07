@@ -9,7 +9,7 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 
 liff
-    .init({ liffId: '2005903938-1NVll7Zy' })
+    .init({ liffId: import.meta.env.VITE_LIFF_ID })
     .then(() => {
         const app = createApp(App);
         app.config.globalProperties.$liff = liff;
