@@ -3,8 +3,10 @@ import { createPinia } from 'pinia'
 import router from './routes'
 import App from './App.vue'
 import liff from '@line/liff';
-
+import ToastService from 'primevue/toastservice';
 import './assets/styles/tailwind.css'
+import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
 
 liff
     .init({ liffId: '2005903938-1NVll7Zy' })
