@@ -19,7 +19,7 @@ const product = computed<Product>(
 )
 const toast = useToast();
 
-const showSuccess = (id) => {
+const showSuccess = (id: string) => {
   cartStore.add(id)
   toast.add({ severity: 'success', summary: 'Success Message', detail: '1 item has been added to the cart.', life: 3000 });
 };

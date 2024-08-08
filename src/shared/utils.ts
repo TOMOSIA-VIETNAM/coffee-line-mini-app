@@ -1,7 +1,7 @@
-const formatter = new Intl.NumberFormat('en-US', {
+const formatter = new Intl.NumberFormat('ja-JP', {
   style: 'currency',
-  currency: 'USD',
-})
+  currency: 'JPY',
+});
 
 export const apiUrl = import.meta.env.VITE_API_BASE_URL
 

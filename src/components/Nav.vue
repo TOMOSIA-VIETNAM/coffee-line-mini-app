@@ -1,72 +1,58 @@
 <script setup lang="ts">
-import {computed, ref} from 'vue'
-import Search from './Search.vue'
-import {useCartStore} from '@/store/cart'
-import {useCategoryStore} from "@/store/categories";
+import { computed, ref } from "vue";
 
-const cartStore = useCartStore()
-const showDropdown = ref<boolean>(false);
-const count = computed(() => cartStore.count)
-const categoryStore = useCategoryStore()
+import { BagIcon, HomeIcon } from "./Base/template/Icons";
+import { useRoute } from "vue-router";
 
-const selectCategory = (categoryId: string | null) => {
-  if (categoryId === null) {
-    categoryStore.all();
-  } else {
-    categoryStore.setCategory(categoryId);
-  }
-  showDropdown.value = false;
-};
+const route = useRoute();
+const currentPath = computed(() => route.path);
 
-const categories = computed(() => categoryStore.list)
+const listNavItem = ref([
+  {
+    title: "Home",
+    icon: HomeIcon,
+    path: "/",
+  },
+  {
+    title: "Cart",
+    icon: BagIcon,
+    path: "/cart",
+  },
+]);
 </script>
 
 <template>
-  <div class="navbar shadow-lg bg-neutral text-neutral-content justify-center">
-    <div class="container justify-between">
-      <div class="flex-none lg:hidden">
-        <label for="drawer-input" class="btn btn-square btn-ghost">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-               class="inline-block w-6 h-6 stroke-current">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </label>
-      </div>
-      <div class="flex-none px-2 mx-2">
-      <span class="text-lg font-bold">
-        TMS Coffee</span>
-      </div>
-      <div class="flex-1 lg:flex-none">
-        <Search/>
-        <router-link class="btn btn-ghost btn-sm rounded-btn cart" to="/cart">
-          Cart
-          <div class="badge ml-2 badge-outline" v-text="count"/>
-        </router-link>
-      </div>
-    </div>
-  </div>
-  <div class="navbar mb-2 shadow-lg bg-neutral text-neutral-content border-t-2 justify-center navbar-bottom">
-    <div class="flex-1 mx-2 container">
-      <div class="items-stretch hidden lg:flex">
-        <router-link class="btn btn-ghost btn-sm rounded-btn" to="/" @click="selectCategory(null)">
-          Home
-        </router-link>
-        <router-link to="/" class="btn btn-ghost btn-sm rounded-btn" v-for="category in categories" :key="category.id" @click="selectCategory(category.id)">
-          {{ category.name }}
-        </router-link>
-      </div>
-    </div>
+  <div
+    class="fixed bottom-0 w-screen h-[80px] bg-[#fff] px-5 shadow-lg flex justify-evenly items-center gap-2"
+  >
+    <router-link
+      v-for="({ icon: Icon, path }, index) in listNavItem"
+      :key="index"
+      class="flex flex-col justify-center items-center"
+      :to="path"
+    >
+      <component
+        :is="Icon"
+        :color="currentPath === path ? '#C67C4E' : '#A2A2A2'"
+      />
+      <div
+        :class="{
+          visible: currentPath === path,
+          invisible: currentPath !== path,
+        }"
+        class="w-[10px] h-[5px] mt-2 rounded-[18px] transition duration-300 ease-in-out bg-[#C67C4E]"
+      ></div>
+    </router-link>
   </div>
 </template>
 
 <style scoped>
 @media (max-width: 1000px) {
-  .cart{
+  .cart {
     display: none;
   }
-  .navbar-bottom{
+  .navbar-bottom {
     display: none;
   }
 }
 </style>
-
