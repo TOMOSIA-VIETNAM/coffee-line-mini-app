@@ -3,7 +3,7 @@ import {useProductStore} from './products'
 import {CART_STORAGE} from '@/composables/usePersistCart'
 
 export interface Purchase {
-    productId: number
+    productId: string
     quantity: number
 }
 
@@ -12,7 +12,7 @@ interface CartState {
 }
 
 export interface CartPreview {
-    id: number
+    id: string
     image: string
     title: string
     quantity: number
@@ -59,7 +59,7 @@ export const useCartStore = defineStore({
             })
         },
 
-        cartContent(): { quantity: number; product_id: number }[] {
+        cartContent(): { quantity: number; product_id: string }[] {
             return Object.keys(this.contents).map((productId) => {
                 const purchase = this.contents[productId]
 
@@ -72,7 +72,7 @@ export const useCartStore = defineStore({
     },
 
     actions: {
-        add(productId: number) {
+        add(productId: string) {
             if (this.contents[productId]) {
                 this.contents[productId].quantity += 1
             } else {
@@ -82,7 +82,7 @@ export const useCartStore = defineStore({
                 }
             }
         },
-        remove(productId: number) {
+        remove(productId: string) {
             if (!this.contents[productId])
                 return
 

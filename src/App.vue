@@ -5,6 +5,7 @@ import {usePersistCart} from './composables/usePersistCart'
 import {useCartStore} from './store/cart'
 import {useProductStore} from './store/products'
 import {useCategoryStore} from "@/store/categories";
+import Toast from 'primevue/toast'
 
 const productStore = useProductStore()
 const cartStore = useCartStore()
@@ -30,8 +31,8 @@ const categories = computed(() => categoryStore.list)
   <div class="drawer">
     <input id="drawer-input" type="checkbox" class="drawer-toggle">
     <div class="bg-base-100 text-base-content min-h-screen drawer-content">
-      <Nav/>
       <router-view/>
+      <Nav/>
     </div>
     <div class="drawer-side">
       <label for="drawer-input" class="drawer-overlay"/>
