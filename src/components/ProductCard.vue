@@ -8,13 +8,18 @@ defineProps<{
 }>();
 
 const cartStore = useCartStore();
+
+const showSuccess = (id: string) => {
+  cartStore.add(id);
+};
 </script>
 
 <template>
   <div class="product w-full bg-white rounded-lg overflow-hidden">
-    <figure class="relative">
-      <!-- rating badge -->
-      <!-- <div
+    <figure class="w-full relative">
+      <router-link :to="`/product/${product.id}`" class="hover:underline">
+        <!-- rating badge -->
+        <!-- <div
         class="absolute flex justify-center items-center px-3 py-1 bg-gradient-to-r from-[#313131]/30 to-[#111]/30 top-0 right-0 rounded-tr-xl rounded-bl-xl"
       >
         <div
@@ -33,19 +38,18 @@ const cartStore = useCartStore();
         </div>
         <p class="text-[#fff] text-[8px] font-semibold leading-[12px]">4.8</p>
       </div> -->
-      <img
-        :src="`${apiUrl}/storage/${product.images[0].path_name}`"
-        alt="Card Image"
-        class="w-full h-[128px] object-cover rounded-xl"
-      />
+        <img
+          :src="`${apiUrl}/storage/${product.images[0].path_name}`"
+          alt="Card Image"
+          class="w-full h-[128px] object-cover rounded-xl"
+        />
+      </router-link>
     </figure>
-    <div class="flex justify-between items-center">
-      <h2 class="text-lg font-semibold">
-        <router-link :to="`/product/${product.id}`" class="hover:underline">
-          {{ product.title }}
-        </router-link>
-      </h2>
-    </div>
+    <h2 class="text-lg font-semibold break-words line-clamp-2">
+      <router-link :to="`/product/${product.id}`" class="hover:underline">{{
+        product.title
+      }}</router-link>
+    </h2>
     <p
       class="text-[#A2A2A2] text-xs font-normal leading-[14px] mt-1 mb-2 line-clamp-2"
     >
@@ -57,7 +61,7 @@ const cartStore = useCartStore();
       }}</span>
       <button
         class="bg-amber-800 w-8 h-8 text-white rounded-lg hover:bg-amber-700 focus:outline-none"
-        @click="cartStore.add(product.id)"
+        @click="showSuccess(product.id)"
       >
         +
       </button>
@@ -66,14 +70,6 @@ const cartStore = useCartStore();
 </template>
 
 <style scoped>
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .product-image img {
   width: 100%;
   height: 150px;
