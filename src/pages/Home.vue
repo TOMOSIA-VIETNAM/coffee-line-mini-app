@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import Toast from "primevue/toast";
+
 import ProductCard from "@/components/ProductCard.vue";
-import ProductCardSkeleton from "@/components/ProductCardSkeleton.vue";
+import Search from "@/components/Search.vue";
+import Nav from "@/components/Nav.vue";
+import { FilterIcon } from "@/components/Base/template/Icons";
 
 import { useProductStore } from "@/store/products";
 import { useCategoryStore } from "@/store/categories";
-import Toast from "primevue/toast";
-import Search from "@/components/Search.vue";
-import { DropdownIcon, FilterIcon } from "@/components/Base/template/Icons";
 
 const productStore = useProductStore();
 const categoryStore = useCategoryStore();
@@ -31,9 +32,9 @@ const setCategorySelected = (categoryId: string) => {
   <div
     class="h-[200px] px-[22px] pt-[30px] bg-gradient-to-r from-[#313131] to-[#111]"
   >
-      <p class="text-base font-semibold text-[#D8D8D8] leading-[21px]">
+      <h2 class="text-base font-semibold text-[#D8D8D8] leading-[21px]">
         Enjoy your visit! ☕
-      </p>
+      </h2>
 
     <div class="flex items-center gap-4 mt-[20px]">
       <Search />
@@ -105,5 +106,6 @@ const setCategorySelected = (categoryId: string) => {
       />
     </div>
   </div>
+  <Nav />
   <Toast />
 </template>
