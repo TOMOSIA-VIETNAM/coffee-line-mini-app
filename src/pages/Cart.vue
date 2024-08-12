@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import CartCard from "../components/CartCard.vue";
-import CartCardSkeleton from "../components/CartCardSkeleton.vue";
-import { toCurrency } from "../shared/utils";
-import { useCartStore } from "../store/cart";
-import { useProductStore } from "../store/products";
+import { computed } from 'vue'
+
+import CartCard from '@/components/CartCard.vue'
+import CartCardSkeleton from '@/components/CartCardSkeleton.vue'
+import Nav from '@/components/Nav.vue'
+
+import { toCurrency } from '@/shared/utils'
+import { useCartStore } from '@/store/cart'
+import { useProductStore } from '@/store/products'
 
 const cartStore = useCartStore();
 const productStore = useProductStore();
@@ -44,4 +47,6 @@ const formattedCart = computed(() => cartStore.formattedCart);
       </router-link>
     </div>
   </div>
+
+  <Nav/>
 </template>

@@ -14,7 +14,7 @@ liff
         const app = createApp(App);
         app.config.globalProperties.$liff = liff;
         app.use(createPinia())
-        app.use(PrimeVue);
+        app.use(PrimeVue, { defaultTheme: Aura });
         app.use(ToastService);
         app.use(router)
         app.mount('#app')
