@@ -1,135 +1,321 @@
 <template>
-  <div class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-4">Checkout Information</h2>
-      <div class="mb-4">
-        <label class="block text-gray-700 font-bold">Name<span class="text-red-700">*</span></label>
-        <input
+  <div class="px-8 pt-[30px] w-screen h-screen">
+    <div class="w-full h-full pb-[118px] space-y-4">
+      <div class="flex justify-between items-center gap-1 mb-5">
+        <button type="button" @click="route.back()">
+          <ArrowRightIcon />
+        </button>
+        <h2 class="text-[#242424] text-base font-semibold leading-[19px]">
+          Order
+        </h2>
+        <HeartIcon />
+      </div>
+      <div class="">
+        <h3 class="text-base font-semibold text-[#242424] my-4">
+          Delivery Address
+        </h3>
+
+        <div>
+          <p v-if="form.address" class="text-[#A2A2A2] text-xs font-normal">
+            {{ form.address }}
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 my-4">
+          <button
+            type="button"
+            @click="handleToggleForm"
+            class="flex items-center gap-1 border border-[#A2A2A2] rounded-[16px] text-center h-[26px] px-[12px] py-[6px]"
+          >
+            <EditIcon />
+            <p class="text-[#313131] text-xs font-normal leading-[12px]">
+              Edit Address
+            </p>
+          </button>
+          <!-- Add Note Button -->
+          <!-- <div
+            class="flex items-center gap-1 border border-[#A2A2A2] rounded-[16px] text-center h-[26px] px-[12px] py-[6px]"
+          >
+            <NoteIcon />
+            <p class="text-[#313131] text-xs font-normal leading-[12px]">
+              Add Note
+            </p>
+          </div> -->
+        </div>
+      </div>
+      <div v-if="showForm">
+        <div class="mb-4">
+          <label class="block text-sm text-gray-700 font-bold"
+            >Name<span class="text-red-700">*</span></label
+          >
+          <input
             type="text"
             v-model="form.client_name"
             class="w-full p-2 border border-gray-300 rounded mt-1"
-            :class="{'border-red-500': errors.client_name}"
+            :class="{ 'border-red-500': errors.client_name }"
             placeholder="Enter your name"
-        />
-        <p v-if="errors.client_name" class="text-red-500 text-sm">{{ errors.client_name }}</p>
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 font-bold">Address<span class="text-red-700">*</span></label>
-        <input
+          />
+          <p v-if="errors.client_name" class="text-red-500 text-sm">
+            {{ errors.client_name }}
+          </p>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm text-gray-700 font-bold"
+            >Address<span class="text-red-700">*</span></label
+          >
+          <input
             type="text"
             v-model="form.address"
             class="w-full p-2 border border-gray-300 rounded mt-1"
-            :class="{'border-red-500': errors.address}"
+            :class="{ 'border-red-500': errors.address }"
             placeholder="Enter your address"
-        />
-        <p v-if="errors.address" class="text-red-500 text-sm">{{ errors.address }}</p>
-      </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 font-bold">Phone Number <span class="text-red-700">*</span></label>
-        <input
+          />
+          <p v-if="errors.address" class="text-red-500 text-sm">
+            {{ errors.address }}
+          </p>
+        </div>
+        <div class="mb-4">
+          <label class="block text-sm text-gray-700 font-bold"
+            >Phone Number <span class="text-red-700">*</span></label
+          >
+          <input
             type="text"
             v-model="form.phone_number"
             class="w-full p-2 border border-gray-300 rounded mt-1"
-            :class="{'border-red-500': errors.phone_number}"
+            :class="{ 'border-red-500': errors.phone_number }"
             placeholder="Enter your phone number"
-        />
-        <p v-if="errors.phone_number" class="text-red-500 text-sm">{{ errors.phone_number }}</p>
+          />
+          <p v-if="errors.phone_number" class="text-red-500 text-sm">
+            {{ errors.phone_number }}
+          </p>
+        </div>
       </div>
       <div class="mb-4">
         <ul>
-          <li v-for="product in formattedCart" :key="product.id" class="flex items-center mb-4">
-            <img :src="`${apiUrl}/storage/${product.image}`" :alt="product.title" class="w-16 h-16 rounded mr-4" />
-            <div class="flex-1">
-              <div class="flex justify-between">
-                <span class="font-medium">{{ product.title }}</span>
-                <span>X {{ product.quantity }}</span>
-                <span>{{ toCurrency(product.cost)}}</span>
+          <li
+            v-for="product in formattedCart"
+            :key="product.id"
+            class="w-full flex justify-between items-center gap-2 overflow-hidden pt-4 px-2 mt-[20px] border-t border-[#E3E3E3]"
+          >
+            <div class="max-w-[70%] grid grid-cols-3 gap-2">
+              <img
+                :src="`${apiUrl}/storage/${product.image}`"
+                :alt="product.title"
+                class="w-[54px] h-[54px] object-cover rounded-xl"
+              />
+              <div class="col-span-2">
+                <h2
+                  class="text-base text-[#242424] font-semibold mb-2 line-clamp-2 break-words"
+                >
+                  {{ product.title }}
+                </h2>
+                <p class="text-xs font-normal text-[#C67C4E]">
+                  {{ toCurrency(product.cost) }}
+                </p>
               </div>
+            </div>
+            <div class="max-w-[30%] flex justify-between items-center gap-2">
+              <button
+                class="flex justify-center items-center border border-[#F9F2ED] w-6 h-6 bg-[#fff] rounded-full hover:bg-[#F9F2ED] p-1"
+                @click="cartStore.remove(product.id)"
+              >
+                <MinusIcon />
+              </button>
+              <span
+                class="text-sm text-[#2A2A2A] font-semibold text-center leading-[21px]"
+                >{{ product.quantity }}</span
+              >
+              <button
+                class="flex justify-center items-center border border-[#F9F2ED] w-6 h-6 bg-[#fff] rounded-full hover:bg-[#F9F2ED] p-1"
+                @click="cartStore.add(product.id)"
+              >
+                <PlusIcon />
+              </button>
             </div>
           </li>
         </ul>
       </div>
-      <button type="submit" class="w-full p-2 bg-blue-500 text-white rounded" @click="handleSubmit">Checkout</button>
+      <div class="w-full h-1 bg-[#F9F2ED]"></div>
+
+      <!-- Discount badge -->
+      <!-- <div
+        class="w-full flex justify-between items-center h-[56px] bg-[#fff] p-[16px] border border-[#EDEDED] rounded-[16px]"
+      >
+        <div class="flex items-center gap-4">
+          <DiscountIcon />
+          <p class="text-sm font-semibold text-[#313131]">
+            1 Discount is Applies
+          </p>
+        </div>
+        <ArrowLeftIcon />
+      </div> -->
+
+      <div class="w-full">
+        <h3 class="text-base font-semibold text-[#242424] my-4">
+          Payment Summary
+        </h3>
+        <div>
+          <p class="flex justify-between items-center">
+            <span class="text-sm font-normal text-[#313131]">Price</span>
+            <span class="text-[#242424] text-sm font-semibold">{{
+              toCurrency(cartStore.total)
+            }}</span>
+          </p>
+          <!-- Delivery Fee -->
+          <!-- <div class="flex justify-between items-center">
+            <p class="text-sm font-normal text-[#313131]">Delivery Fee</p>
+
+            <p class="flex gap-1">
+              <del class="text-[#242424] text-sm font-normal">{{
+                toCurrency(2.0)
+              }}</del>
+              <span class="text-[#242424] text-sm font-semibold">{{
+                toCurrency(1.0)
+              }}</span>
+            </p>
+          </div> -->
+        </div>
+      </div>
+      <div class="h-[165px] w-full bg-[#fff]">
+        <div class="w-full h-[56px] flex justify-between items-center mb-2">
+          <div class="flex items-center gap-4">
+            <WalletIcon />
+            <div>
+              <p
+                class="text-sm leading-[16px] font-semibold text-[#242424] mb-2"
+              >
+                Cash/Wallet
+              </p>
+              <p
+                class="text-[#C67C4E] text-xs font-semibold leading-[18px] truncate break-all"
+              >
+                {{ toCurrency(cartStore.total) }}
+              </p>
+            </div>
+          </div>
+          <DropdownIcon color="#000" />
+        </div>
+        <button
+          type="submit"
+          class="w-full py-[16px] px-[20px] text-center text-base font-semibold text-[#fff] bg-[#C67C4E] transition duration-300 ease-out hover:bg-[#C67C4E]/80 rounded-[16px]"
+          @click="handleSubmit"
+        >
+          {{ isSubmitting ? "Loading..." : "Checkout" }}
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue'
-import {useCartStore} from "@/store/cart";
-import {apiUrl, toCurrency, xApiKey} from "@/shared/utils";
-import {useRouter} from "vue-router";
-import liff from "@line/liff";
+import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
+import liff from "@line/liff";
 
-const cartStore = useCartStore()
-const formattedCart = computed(() => cartStore.formattedCart)
-const cart = computed(() => cartStore.cartContent)
-const route = useRouter()
-const lineId = ref<string|null>(null);
+import {
+  ArrowRightIcon,
+  DropdownIcon,
+  WalletIcon,
+  ArrowLeftIcon,
+  DiscountIcon,
+  EditIcon,
+  NoteIcon,
+  MinusIcon,
+  PlusIcon
+} from "@/components/Base/template/Icons";
+
+import { useCartStore } from "@/store/cart";
+import { apiUrl, toCurrency, xApiKey } from "@/shared/utils";
+
+const route = useRouter();
+const cartStore = useCartStore();
+
+const lineId = ref<string | null>(null);
+const showForm = ref<boolean>(true);
+const isSubmitting = ref<boolean>(false);
+
+const formattedCart = computed(() => cartStore.formattedCart);
+const cart = computed(() => cartStore.cartContent);
+const totalOrder = computed(() =>
+  formattedCart.value.reduce((acc, item) => {
+    return acc + item.cost;
+  }, 0)
+);
 
 const form = ref({
-  client_name: '',
-  address: '',
-  phone_number: '',
+  client_name: "",
+  address: "",
+  phone_number: "",
   shop_id: 1,
   line_id: lineId,
-  total_price: cartStore.total,
-  items: cart.value
-})
+  total_price: totalOrder,
+  items: cart,
+});
 
 const errors = ref({
-  client_name: '',
-  address: '',
-  phone_number: ''
-})
+  client_name: "",
+  address: "",
+  phone_number: "",
+});
 
-onMounted(async ()=>{
+onMounted(async () => {
   const userProfile = await liff.getProfile();
   lineId.value = userProfile.userId;
-})
+});
+
+const handleToggleForm = () => {
+  showForm.value = !showForm.value;
+};
 
 const validateForm = () => {
-  errors.value = { client_name: '', address: '', phone_number: '' }
+  errors.value = { client_name: "", address: "", phone_number: "" };
 
-  let isValid = true
+  let isValid = true;
 
   if (!form.value.client_name) {
-    errors.value.client_name = 'Name is required'
-    isValid = false
+    errors.value.client_name = "Name is required";
+    isValid = false;
   }
 
   if (!form.value.address) {
-    errors.value.address = 'Address is required'
-    isValid = false
+    errors.value.address = "Address is required";
+    isValid = false;
   }
 
   if (!form.value.phone_number) {
-    errors.value.phone_number = 'Phone number is required';
+    errors.value.phone_number = "Phone number is required";
+    isValid = false;
+  } else if (!/^\d+$/.test(form.value.phone_number)) {
+    errors.value.phone_number = "Phone number must be number";
+    isValid = false;
+  } else if (form.value.phone_number.length !== 10) {
+    errors.value.phone_number =
+      "Phone number must be exactly 10 characters long";
     isValid = false;
   }
-  else if (!/^\d+$/.test(form.value.phone_number)) {
-    errors.value.phone_number = 'Phone number must be number';
-    isValid = false;
-  }
-  else if (form.value.phone_number.length !== 10) {
-    errors.value.phone_number = 'Phone number must be exactly 10 characters long';
-    isValid = false;
-  }
-  return isValid
-}
+  return isValid;
+};
 
 const handleSubmit = async () => {
   if (validateForm()) {
-    const res = await axios.post(`${apiUrl}/api/v1/orders`, form.value, {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-KEY': xApiKey,
+    isSubmitting.value = true;
+    try {
+      const res = await axios.post(`${apiUrl}/api/v1/orders`, form.value, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": xApiKey,
+        },
+      });
+      if (res && res.status === 200) {
+        await route.push("/success");
+        cartStore.deleteAll();
       }
-    })
-    if (res && res.status === 200){
-      await route.push('/success')
-      cartStore.deleteAll()
+    } catch (error) {
+      console.log(error);
+    } finally {
+      isSubmitting.value = false;
     }
   }
-}
+};
 </script>
-
