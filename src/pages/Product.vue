@@ -1,27 +1,32 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useCartStore } from '@/store/cart'
-import { useProductStore } from '@/store/products'
-import {apiUrl, toCurrency} from '@/shared/utils'
-import CartCardSkeleton from '@/components/CartCardSkeleton.vue'
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useCartStore } from "@/store/cart";
+import { useProductStore } from "@/store/products";
+import { apiUrl, toCurrency } from "@/shared/utils";
+import CartCardSkeleton from "@/components/CartCardSkeleton.vue";
 import Product from "@/types/product";
 import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
 
-const cartStore = useCartStore()
-const productStore = useProductStore()
+const cartStore = useCartStore();
+const productStore = useProductStore();
 
-const route = useRoute()
+const route = useRoute();
 
 const product = computed<Product>(
-  () => productStore.items[route.params.productId as string],
-)
+  () => productStore.items[route.params.productId as string]
+);
 const toast = useToast();
 
 const showSuccess = (id: string) => {
-  cartStore.add(id)
-  toast.add({ severity: 'success', summary: 'Success Message', detail: '1 item has been added to the cart.', life: 3000 });
+  cartStore.add(id);
+  toast.add({
+    severity: "secondary",
+    summary: "Success Message",
+    detail: "1 item has been added to the cart.",
+    life: 3000,
+  });
 };
 </script>
 
@@ -36,8 +41,13 @@ const showSuccess = (id: string) => {
           :src="`${apiUrl}/storage/${product.images[0].path_name}`"
           alt="Card Image"
           class="object-contain w-full h-64"
-          style="height: 230px;width: 230px;object-fit: cover;padding-bottom: 30px"
-        >
+          style="
+            height: 230px;
+            width: 230px;
+            object-fit: cover;
+            padding-bottom: 30px;
+          "
+        />
       </figure>
       <div class="card-body">
         <h2 class="card-title" v-text="product.title" />
@@ -46,7 +56,11 @@ const showSuccess = (id: string) => {
           {{ toCurrency(product.price) }}
         </p>
         <div class="card-actions">
-          <button class="btn btn-primary" @click="showSuccess(product.id)" severity="success">
+          <button
+            class="btn btn-primary"
+            @click="showSuccess(product.id)"
+            severity="success"
+          >
             Add to Cart
           </button>
         </div>
@@ -58,7 +72,7 @@ const showSuccess = (id: string) => {
       </h1>
     </div>
   </div>
-  <Toast/>
+  <Toast />
 </template>
 
 <style>

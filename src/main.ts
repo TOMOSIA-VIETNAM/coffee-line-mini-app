@@ -14,6 +14,8 @@ liff
         const app = createApp(App);
         app.config.globalProperties.$liff = liff;
         app.use(createPinia())
+        app.use(PrimeVue);
+        app.use(ToastService);
         app.use(router)
         app.mount('#app')
         // if (!liff.isInClient()) {
