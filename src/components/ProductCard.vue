@@ -2,6 +2,7 @@
 import { useCartStore } from "@/store/cart";
 import { apiUrl, toCurrency } from "@/shared/utils";
 import Product from "@/types/product";
+import { ref } from "vue";
 
 defineProps<{
   product: Product;
@@ -9,13 +10,23 @@ defineProps<{
 
 const cartStore = useCartStore();
 
+const showIcon = ref(false);
+
 const showSuccess = (id: string) => {
   cartStore.add(id);
+  showIcon.value = true;
+
+  setTimeout(() => {
+    showIcon.value = false;
+  }, 500);
 };
 </script>
 
 <template>
   <div class="product w-full bg-white rounded-lg overflow-hidden">
+    <Transition name="slide-fade" class="cart-icon">
+      <p v-if="showIcon" class="cart-icon">🛒</p>
+    </Transition>
     <figure class="w-full relative">
       <router-link :to="`/product/${product.id}`" class="hover:underline">
         <!-- rating badge -->
@@ -80,5 +91,21 @@ const showSuccess = (id: string) => {
   gap: 2px;
   grid-template-rows: subgrid;
   grid-row: span 4;
+}
+.cart-icon {
+  z-index: 999;
+}
+.slide-fade-enter-active {
+  transition: all 0.2s ease-in-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translate(80%, 200%);
+  opacity: 0;
 }
 </style>
