@@ -11,85 +11,80 @@
         <HeartIcon />
       </div>
       <div class="">
-        <h3 class="text-base font-semibold text-[#242424] my-4">
+        <h3 class="text-base font-semibold text-[#242424] my-3">
           Delivery Address
         </h3>
 
-        <div>
-          <p v-if="form.address" class="text-[#A2A2A2] text-xs font-normal">
+        <div class="w-full">
+          <p
+            v-if="form.client_name"
+            class="text-[#313131] text-sm font-semibold break-all mb-1"
+          >
+            {{ form.client_name }}
+          </p>
+          <p
+            v-if="form.address"
+            class="text-[#A2A2A2] text-xs font-normal break-all"
+          >
             {{ form.address }}
+          </p>
+          <p
+            v-if="form.phone_number"
+            class="text-[#A2A2A2] text-xs font-normal break-all"
+          >
+            {{ form.phone_number }}
           </p>
         </div>
 
-        <div class="flex items-center gap-2 my-4">
-          <button
-            type="button"
-            @click="handleToggleForm"
-            class="flex items-center gap-1 border border-[#A2A2A2] rounded-[16px] text-center h-[26px] px-[12px] py-[6px]"
-          >
-            <EditIcon />
-            <p class="text-[#313131] text-xs font-normal leading-[12px]">
-              Edit Address
+        <div class="my-4">
+          <div class="mb-4">
+            <label class="block text-sm text-gray-700 font-bold"
+              >Name<span class="text-red-700">*</span></label
+            >
+            <input
+              type="text"
+              v-model="form.client_name"
+              class="w-full p-2 text-xs border border-gray-300 rounded-[10px] mt-1"
+              :class="{ 'border-red-500': errors.client_name }"
+              placeholder="Enter your name"
+            />
+            <p v-if="errors.client_name" class="text-red-500 text-xs">
+              {{ errors.client_name }}
             </p>
-          </button>
-          <!-- Add Note Button -->
-          <!-- <div
-            class="flex items-center gap-1 border border-[#A2A2A2] rounded-[16px] text-center h-[26px] px-[12px] py-[6px]"
-          >
-            <NoteIcon />
-            <p class="text-[#313131] text-xs font-normal leading-[12px]">
-              Add Note
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm text-gray-700 font-bold"
+              >Address<span class="text-red-700">*</span></label
+            >
+            <input
+              type="text"
+              v-model="form.address"
+              class="w-full p-2 text-xs border border-gray-300 rounded-[10px] mt-1"
+              :class="{ 'border-red-500': errors.address }"
+              placeholder="Enter your address"
+            />
+            <p v-if="errors.address" class="text-red-500 text-xs">
+              {{ errors.address }}
             </p>
-          </div> -->
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm text-gray-700 font-bold"
+              >Phone Number <span class="text-red-700">*</span></label
+            >
+            <input
+              type="text"
+              v-model="form.phone_number"
+              class="w-full p-2 text-xs border border-gray-300 rounded-[10px] mt-1"
+              :class="{ 'border-red-500': errors.phone_number }"
+              placeholder="Enter your phone number"
+            />
+            <p v-if="errors.phone_number" class="text-red-500 text-xs">
+              {{ errors.phone_number }}
+            </p>
+          </div>
         </div>
       </div>
-      <div v-if="showForm">
-        <div class="mb-4">
-          <label class="block text-sm text-gray-700 font-bold"
-            >Name<span class="text-red-700">*</span></label
-          >
-          <input
-            type="text"
-            v-model="form.client_name"
-            class="w-full p-2 border border-gray-300 rounded mt-1"
-            :class="{ 'border-red-500': errors.client_name }"
-            placeholder="Enter your name"
-          />
-          <p v-if="errors.client_name" class="text-red-500 text-sm">
-            {{ errors.client_name }}
-          </p>
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm text-gray-700 font-bold"
-            >Address<span class="text-red-700">*</span></label
-          >
-          <input
-            type="text"
-            v-model="form.address"
-            class="w-full p-2 border border-gray-300 rounded mt-1"
-            :class="{ 'border-red-500': errors.address }"
-            placeholder="Enter your address"
-          />
-          <p v-if="errors.address" class="text-red-500 text-sm">
-            {{ errors.address }}
-          </p>
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm text-gray-700 font-bold"
-            >Phone Number <span class="text-red-700">*</span></label
-          >
-          <input
-            type="text"
-            v-model="form.phone_number"
-            class="w-full p-2 border border-gray-300 rounded mt-1"
-            :class="{ 'border-red-500': errors.phone_number }"
-            placeholder="Enter your phone number"
-          />
-          <p v-if="errors.phone_number" class="text-red-500 text-sm">
-            {{ errors.phone_number }}
-          </p>
-        </div>
-      </div>
+
       <div class="mb-4">
         <ul>
           <li
@@ -193,7 +188,6 @@
               </p>
             </div>
           </div>
-          <DropdownIcon color="#000" />
         </div>
         <button
           type="submit"
@@ -215,14 +209,9 @@ import liff from "@line/liff";
 
 import {
   ArrowRightIcon,
-  DropdownIcon,
   WalletIcon,
-  ArrowLeftIcon,
-  DiscountIcon,
-  EditIcon,
-  NoteIcon,
   MinusIcon,
-  PlusIcon
+  PlusIcon,
 } from "@/components/Base/template/Icons";
 
 import { useCartStore } from "@/store/cart";
@@ -232,7 +221,6 @@ const route = useRouter();
 const cartStore = useCartStore();
 
 const lineId = ref<string | null>(null);
-const showForm = ref<boolean>(true);
 const isSubmitting = ref<boolean>(false);
 
 const formattedCart = computed(() => cartStore.formattedCart);
@@ -261,12 +249,9 @@ const errors = ref({
 
 onMounted(async () => {
   const userProfile = await liff.getProfile();
-  lineId.value = userProfile.userId;
+  lineId.value = userProfile.userId;  
 });
 
-const handleToggleForm = () => {
-  showForm.value = !showForm.value;
-};
 
 const validateForm = () => {
   errors.value = { client_name: "", address: "", phone_number: "" };

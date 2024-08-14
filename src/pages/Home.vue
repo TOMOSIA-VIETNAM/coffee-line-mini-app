@@ -96,7 +96,7 @@ const setCategorySelected = (categoryId: string) => {
     <div
       class="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-3 px-4 pb-6 overflow-y-auto"
     >
-      <h1 class="text-xl" v-if="!productStore.loaded">
+      <h1 class="text-sm text-[#242424] font-medium" v-if="!productStore.loaded">
         All products are sold out
       </h1>
       <ProductCard

@@ -22,9 +22,9 @@ const formattedCart = computed(() => cartStore.formattedCart);
       <CartCardSkeleton v-for="n in 15" :key="n" />
     </div>
     <div v-else-if="!formattedCart.length">
-      <h1 class="text-xl">Cart is empty.</h1>
+      <h1 class="text-sm text-[#242424] font-medium">Cart is empty.</h1>
     </div>
-    <div v-else class="mb-[80px] space-y-4">
+    <div v-else class="space-y-4">
       <CartCard
         v-for="(cartProduct, index) in formattedCart"
         :key="index"

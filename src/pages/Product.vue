@@ -32,7 +32,7 @@ const showSuccess = async (id: string) => {
 
   setTimeout(() => {
     showIcon.value = false;
-  }, 1000);
+  }, 500);
 };
 </script>
 
@@ -42,8 +42,8 @@ const showSuccess = async (id: string) => {
       <CartCardSkeleton />
     </div>
     <div v-else-if="product" class="w-full h-full pb-[118px]">
-      <Transition name="slide-fade" class="cart-icon">
-        <p v-if="showIcon">🛒</p>
+      <Transition name="slide-fade">
+        <p v-if="showIcon" class="cart-icon">🛒</p>
       </Transition>
       <div class="flex justify-between items-center gap-1 mb-5">
         <button type="button" @click="router.back()">
@@ -143,9 +143,16 @@ const showSuccess = async (id: string) => {
     </div>
 
     <div v-else>
-      <h1 class="text-xl text-error">
+      <h1 class="text-sm font-medium text-error">
         No product found with id {{ route.params.productId }}
       </h1>
+      <button
+        type="button"
+        class="w-full my-4 py-[8px] px-[20px] text-center text-base font-semibold text-[#fff] bg-[#C67C4E] transition duration-300 ease-out hover:bg-[#C67C4E]/80 rounded-[16px]"
+        @click="router.push('/')"
+      >
+        Back to Home
+      </button>
     </div>
   </div>
 </template>
@@ -164,11 +171,11 @@ const showSuccess = async (id: string) => {
 }
 
 .slide-fade-enter-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-fade-enter-from,
