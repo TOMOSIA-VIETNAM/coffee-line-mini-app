@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import Toast from "primevue/toast";
+import { computed} from "vue";
 
 import ProductCard from "@/components/ProductCard.vue";
 import Search from "@/components/Search.vue";
+import Filter from "@/components/Filter.vue";
 import Nav from "@/components/Nav.vue";
-import { FilterIcon } from "@/components/Base/template/Icons";
 
 import { useProductStore } from "@/store/products";
 import { useCategoryStore } from "@/store/categories";
@@ -26,24 +25,20 @@ const products = computed(() => {
 const setCategorySelected = (categoryId: string) => {
   categoryStore.setCategory(categoryId);
 };
+
 </script>
 
 <template>
   <div
     class="h-[200px] px-[22px] pt-[30px] bg-gradient-to-r from-[#313131] to-[#111]"
   >
-      <h2 class="text-base font-semibold text-[#D8D8D8] leading-[21px]">
-        Enjoy your visit! ☕
-      </h2>
+    <h2 class="text-base font-semibold text-[#D8D8D8] leading-[21px]">
+      Enjoy your visit! ☕
+    </h2>
 
     <div class="flex items-center gap-4 mt-[20px]">
       <Search />
-      <button
-        type="button"
-        class="w-[52px] h-[52px] p-4 rounded-[12px] bg-[#C67C4E] text-center transition duration-300 ease-in-out hover:bg-amber-700"
-      >
-        <FilterIcon />
-      </button>
+      <Filter />
     </div>
     <div class="relative w-full mt-5 flex justify-center">
       <div
@@ -70,22 +65,24 @@ const setCategorySelected = (categoryId: string) => {
     <button
       type="button"
       @click="categoryStore.all()"
-      class="text-center w-[87px] h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
+      class="text-center w-fit h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
       :class="{
         'text-[#fff] bg-[#C67C4E]': !categoryStore.selectedCategory,
         'bg-[#EDEDED59]/35': categoryStore.selectedCategory,
       }"
     >
-      All Coffee
+      All Products
     </button>
     <button
       type="button"
       v-for="category in categoryStore.list"
       @click="setCategorySelected(category.id)"
-      class="text-center w-[87px] h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
+      class="text-center w-fit h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
       :class="{
-        'text-[#fff] bg-[#C67C4E]': categoryStore.selectedCategory === category.id,
-        'text-[#000] bg-[#EDEDED59]/35': categoryStore.selectedCategory !== category.id,
+        'text-[#fff] bg-[#C67C4E]':
+          categoryStore.selectedCategory === category.id,
+        'text-[#000] bg-[#EDEDED59]/35':
+          categoryStore.selectedCategory !== category.id,
       }"
     >
       {{ category.name }}
@@ -96,8 +93,11 @@ const setCategorySelected = (categoryId: string) => {
     <div
       class="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-3 px-4 pb-6 overflow-y-auto"
     >
-      <h1 class="text-sm text-[#242424] font-medium" v-if="!productStore.loaded">
-        All products are sold out
+      <h1
+        class="text-sm text-[#242424] font-medium"
+        v-if="!productStore.loaded"
+      >
+        Product not found.
       </h1>
       <ProductCard
         v-for="product in products"
@@ -107,5 +107,4 @@ const setCategorySelected = (categoryId: string) => {
     </div>
   </div>
   <Nav />
-  <Toast />
 </template>
