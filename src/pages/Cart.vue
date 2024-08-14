@@ -17,7 +17,7 @@ const formattedCart = computed(() => cartStore.formattedCart);
 
 <template>
   <div class="p-4 pt-[30px] max-w-7xl mb-[80px] mx-auto">
-    <h2 class="text-[#242424] text-base font-semibold mb-5">Your cart order</h2>
+    <h2 class="text-[#242424] text-base font-semibold mb-5">Your cart 🛒</h2>
     <div v-if="!productStore.loaded" class="space-y-4">
       <CartCardSkeleton v-for="n in 15" :key="n" />
     </div>
@@ -42,7 +42,7 @@ const formattedCart = computed(() => cartStore.formattedCart);
           type="button"
           class="w-full py-[16px] px-[20px] text-center text-base font-semibold text-[#fff] bg-[#C67C4E] transition duration-300 ease-out hover:bg-[#C67C4E]/80 rounded-[16px]"
         >
-          Check Out
+          Go to Check Out
         </button>
       </router-link>
     </div>
