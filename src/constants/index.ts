@@ -1,0 +1,5 @@
+export enum STATUS_ORDER {
+  INTRASIT = 0,
+  DELIVERED = 1,
+  CANCELLED = 2,
+}

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-
-import { BagIcon, HomeIcon } from "./Base/template/Icons";
 import { useRoute } from "vue-router";
+
+import { BagIcon, ClockIcon, HomeIcon } from "@/components/Base/template/Icons";
+
 import { useCartStore } from "@/store/cart";
 
 const route = useRoute();
@@ -13,6 +14,11 @@ const listNavItem = ref([
     title: "Home",
     icon: HomeIcon,
     path: "/",
+  },
+  {
+    title: "History order",
+    icon: ClockIcon,
+    path: "/history-order",
   },
   {
     title: "Cart",

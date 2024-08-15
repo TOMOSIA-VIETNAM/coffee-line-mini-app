@@ -1,21 +1,19 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from './pages/Home.vue'
-import Product from './pages/Product.vue'
-import Cart from './pages/Cart.vue'
-import CheckOut from "@/pages/CheckOut.vue";
-import Success from "@/pages/Success.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import { Home, Product, Cart, CheckOut, Success, HistoryOrder, HistoryOrderDetail } from "./pages";
 
 const routes = [
-  { path: '/', component: Home },
-  { path: '/product/:productId', component: Product },
-  { path: '/cart', component: Cart },
-  {path: '/checkout', component: CheckOut},
-  {path: '/success', component: Success}
-]
+  { path: "/", component: Home },
+  { path: "/product/:productId", component: Product },
+  { path: "/cart", component: Cart },
+  { path: "/checkout", component: CheckOut },
+  { path: "/success", component: Success },
+  { path: "/history-order", component: HistoryOrder },
+  { path: "/history-order/:orderId", component: HistoryOrderDetail },
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-})
+});
 
-export default router
+export default router;

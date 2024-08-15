@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { ref } from "vue";
+
 import { useCartStore } from "@/store/cart";
 import { apiUrl, toCurrency } from "@/shared/utils";
 import Product from "@/types/product";
-import { ref } from "vue";
 
 defineProps<{
   product: Product;
@@ -105,7 +106,7 @@ const showSuccess = (id: string) => {
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translate(80%, 200%);
+  transform: translate(150%, -150%);
   opacity: 0;
 }
 </style>

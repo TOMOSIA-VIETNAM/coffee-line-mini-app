@@ -1,6 +1,7 @@
 import ArrowRightIcon from "./ArrowRightIcon.vue";
 import ArrowLeftIcon from "./ArrowLeftIcon.vue";
 import BagIcon from "./BagIcon.vue";
+import ClockIcon from "./ClockIcon.vue";
 import DropdownIcon from "./DropdownIcon.vue";
 import DiscountIcon from "./DiscountIcon.vue";
 import EditIcon from "./EditIcon.vue";
@@ -17,6 +18,7 @@ export {
   ArrowRightIcon,
   ArrowLeftIcon,
   BagIcon,
+  ClockIcon,
   DropdownIcon,
   DiscountIcon,
   EditIcon,
