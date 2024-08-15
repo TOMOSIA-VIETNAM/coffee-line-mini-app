@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed} from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 
 import ProductCard from "@/components/ProductCard.vue";
 import Search from "@/components/Search.vue";
@@ -8,9 +8,14 @@ import Nav from "@/components/Nav.vue";
 
 import { useProductStore } from "@/store/products";
 import { useCategoryStore } from "@/store/categories";
+import { apiUrl, xApiKey } from "@/shared/utils";
+import Product from "@/types/product";
 
 const productStore = useProductStore();
 const categoryStore = useCategoryStore();
+
+const currentPage = ref<number>(1);
+const hasMore = ref<boolean>(true);
 
 const products = computed(() => {
   const selectedCategoryId = categoryStore.selectedCategory;
@@ -26,6 +31,55 @@ const setCategorySelected = (categoryId: string) => {
   categoryStore.setCategory(categoryId);
 };
 
+const onScroll = async () => {
+  let bottomOfWindow =
+    document.documentElement.scrollTop + window.innerHeight ===
+    document.documentElement.offsetHeight;
+
+  // Check if the user has scrolled to the bottom of the page and hasMore available
+  if (bottomOfWindow && hasMore.value) {
+    currentPage.value += 1;
+    const res = await fetch(
+      `${apiUrl}/api/v1/products?page=${currentPage.value}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-KEY": xApiKey,
+        },
+      }
+    );
+
+    const dataRes: any = await res.json();
+    const data: Product[] = dataRes.data;
+
+    // Check if data is not available or if the current page is already the last page, then do not load more content.
+    if (!data || dataRes.meta.last_page === currentPage.value) {
+      hasMore.value = false;
+    }
+
+    // Return an array where the key is the product ID, and the value is the product
+    const newProductIds = data.map((product: any) => {
+      productStore.items[product.id] = product;
+      return product.id;
+    });
+
+    // Check if the elements of newProductIds do not exist in the store, then push them
+    newProductIds.forEach((item) => {
+      if (!productStore.ids.includes(item)) {
+        productStore.ids.push(item);
+      }
+    });
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", onScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", onScroll);
+});
 </script>
 
 <template>
@@ -105,6 +159,12 @@ const setCategorySelected = (categoryId: string) => {
         :product="product"
       />
     </div>
+    <p
+      class="text-center text-xs text-[#313131]/50 font-normal"
+      v-if="!hasMore"
+    >
+      Viewed all products in the list
+    </p>
   </div>
   <Nav />
 </template>
