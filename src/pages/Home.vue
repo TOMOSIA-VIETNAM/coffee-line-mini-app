@@ -3,8 +3,8 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 
 import ProductCard from "@/components/ProductCard.vue";
 import Search from "@/components/Search.vue";
+import Filter from "@/components/Filter.vue";
 import Nav from "@/components/Nav.vue";
-import { FilterIcon } from "@/components/Base/template/Icons";
 
 import { useProductStore } from "@/store/products";
 import { useCategoryStore } from "@/store/categories";
@@ -92,12 +92,7 @@ onUnmounted(() => {
 
     <div class="flex items-center gap-4 mt-[20px]">
       <Search />
-      <button
-        type="button"
-        class="w-[52px] h-[52px] p-4 rounded-[12px] bg-[#C67C4E] text-center transition duration-300 ease-in-out hover:bg-amber-700"
-      >
-        <FilterIcon />
-      </button>
+      <Filter />
     </div>
     <div class="relative w-full mt-5 flex justify-center">
       <div
@@ -124,19 +119,19 @@ onUnmounted(() => {
     <button
       type="button"
       @click="categoryStore.all()"
-      class="text-center w-[87px] h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
+      class="text-center w-fit h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
       :class="{
         'text-[#fff] bg-[#C67C4E]': !categoryStore.selectedCategory,
         'bg-[#EDEDED59]/35': categoryStore.selectedCategory,
       }"
     >
-      All Coffee
+      All Products
     </button>
     <button
       type="button"
       v-for="category in categoryStore.list"
       @click="setCategorySelected(category.id)"
-      class="text-center w-[87px] h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
+      class="text-center w-fit h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
       :class="{
         'text-[#fff] bg-[#C67C4E]':
           categoryStore.selectedCategory === category.id,
@@ -156,7 +151,7 @@ onUnmounted(() => {
         class="text-sm text-[#242424] font-medium"
         v-if="!productStore.loaded"
       >
-        All products are sold out
+        Product not found.
       </h1>
       <ProductCard
         v-for="product in products"
@@ -172,5 +167,4 @@ onUnmounted(() => {
     </p>
   </div>
   <Nav />
-  <Toast />
 </template>
