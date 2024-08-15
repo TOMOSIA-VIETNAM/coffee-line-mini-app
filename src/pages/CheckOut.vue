@@ -1,14 +1,19 @@
 <template>
   <div class="px-8 pt-[30px] w-screen h-screen">
     <div class="w-full h-full pb-[118px] space-y-4">
-      <div class="flex justify-between items-center gap-1 mb-5">
-        <button type="button" @click="route.back()">
+      <div class="relative flex items-center gap-1 mb-5">
+        <button
+          type="button"
+          class="items-start absolute left-0 inset-y-0"
+          @click="route.back()"
+        >
           <ArrowRightIcon />
         </button>
-        <h2 class="text-[#242424] text-base font-semibold leading-[19px]">
-          Order
+        <h2
+          class="w-full text-[#242424] text-base text-center font-semibold leading-[19px]"
+        >
+          Detail
         </h2>
-        <HeartIcon />
       </div>
       <div class="">
         <h3 class="text-base font-semibold text-[#242424] my-3">

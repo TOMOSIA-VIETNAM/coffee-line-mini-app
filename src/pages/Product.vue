@@ -45,25 +45,32 @@ const showSuccess = async (id: string) => {
       <Transition name="slide-fade">
         <p v-if="showIcon" class="cart-icon">🛒</p>
       </Transition>
-      <div class="flex justify-between items-center gap-1 mb-5">
-        <button type="button" @click="router.back()">
+      <div class="relative flex items-center gap-1 mb-5">
+        <button type="button" class="items-start absolute left-0 inset-y-0" @click="router.back()">
           <ArrowRightIcon />
         </button>
-        <h2 class="text-[#242424] text-base font-semibold leading-[19px]">
+        <h2 class="w-full text-[#242424] text-base text-center font-semibold leading-[19px]">
           Detail
         </h2>
-        <HeartIcon color="#2A2A2A" />
       </div>
       <figure class="my-4">
-        <img
-          :src="`${apiUrl}/storage/${product.images[0].path_name}`"
-          alt="Card Image"
-          class="object-cover rounded-[16px] w-full h-[200px]"
-        />
+        <div class="carousel rounded-box w-full">
+          <div
+            v-for="image in product.images"
+            :key="image.id"
+            class="carousel-item w-full"
+          >
+            <img
+              :src="`${apiUrl}/storage/${image.path_name}`"
+              alt="Card Image"
+              class="object-cover rounded-[16px] w-full h-[200px]"
+            />
+          </div>
+        </div>
       </figure>
       <div class="w-full">
         <h2
-          class="text-[#242424] text-[20px] font-semibold leading-[30px] line-clamp-2 break-all"
+          class="text-[#242424] text-[20px] font-semibold leading-[30px] break-all"
           v-text="product.title"
         />
         <div class="flex justify-between items-center gap-2">
