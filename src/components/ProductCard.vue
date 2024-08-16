@@ -1,17 +1,36 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+
+import { HeartIcon } from "@/components/Base/template/Icons";
 
 import { useCartStore } from "@/store/cart";
 import { apiUrl, toCurrency } from "@/shared/utils";
 import Product from "@/types/product";
+import { useFavoriteStore } from "@/store/favorite";
 
-defineProps<{
+const props = defineProps<{
   product: Product;
 }>();
 
 const cartStore = useCartStore();
+const favoriteStore = useFavoriteStore();
 
 const showIcon = ref(false);
+const isLiked = ref(false);
+
+onMounted(() => {
+  isLiked.value = favoriteStore.ids.includes(Number(props.product.id));
+});
+
+const toggleLiked = (id: string) => {
+  isLiked.value = !isLiked.value;
+  const isInclude = favoriteStore.ids.includes(Number(id));
+  if (!isInclude) {
+    favoriteStore.add(id);
+  } else {
+    favoriteStore.remove(id);
+  }
+};
 
 const showSuccess = (id: string) => {
   cartStore.add(id);
@@ -57,11 +76,20 @@ const showSuccess = (id: string) => {
         />
       </router-link>
     </figure>
-    <h2 class="text-lg font-semibold break-words line-clamp-2">
-      <router-link :to="`/product/${product.id}`" class="hover:underline">{{
-        product.title
-      }}</router-link>
-    </h2>
+    <div class="w-full flex justify-between items-center gap-0.5">
+      <router-link :to="`/product/${product.id}`" class="hover:underline">
+        <h2 class="text-lg font-semibold break-words line-clamp-2">
+          {{ product.title }}
+        </h2>
+      </router-link>
+      <button
+        type="button"
+        @click="toggleLiked(product.id)"
+        class="text-center"
+      >
+        <HeartIcon :color="`${isLiked ? '#C67C4E' : '#2A2A2A'}`" />
+      </button>
+    </div>
     <p
       class="text-[#A2A2A2] text-xs font-normal leading-[14px] mt-1 mb-2 line-clamp-2"
     >
@@ -106,7 +134,7 @@ const showSuccess = (id: string) => {
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translate(150%, -150%);
+  transform: translate(100%, 150%);
   opacity: 0;
 }
 </style>

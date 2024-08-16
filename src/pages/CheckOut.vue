@@ -1,16 +1,9 @@
 <template>
   <div class="px-4 pt-[30px] w-screen h-screen">
     <div class="w-full h-full pb-[118px] space-y-4">
-      <div class="relative flex items-center gap-1 mb-5">
-        <button
-          type="button"
-          class="items-start absolute left-0 inset-y-0"
-          @click="route.back()"
-        >
-          <ArrowRightIcon />
-        </button>
+      <div class="mb-5">
         <h2
-          class="w-full text-[#242424] text-base text-center font-semibold leading-[19px]"
+          class="text-[#242424] text-base text-center font-semibold leading-[19px]"
         >
           Detail
         </h2>

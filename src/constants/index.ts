@@ -3,3 +3,5 @@ export enum STATUS_ORDER {
   DELIVERED = 1,
   CANCELLED = 2,
 }
+
+export const CART_STORAGE = 'CART_STORAGE'

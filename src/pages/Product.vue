@@ -1,22 +1,25 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import CartCardSkeleton from "@/components/CartCardSkeleton.vue";
-import { ArrowRightIcon, HeartIcon } from "@/components/Base/template/Icons";
+import { HeartIcon } from "@/components/Base/template/Icons";
 
 import { useCartStore } from "@/store/cart";
 import { useProductStore } from "@/store/products";
 import { apiUrl, toCurrency } from "@/shared/utils";
 import Product from "@/types/product";
+import { useFavoriteStore } from "@/store/favorite";
 
 const cartStore = useCartStore();
 const productStore = useProductStore();
+const favoriteStore = useFavoriteStore();
 const route = useRoute();
 const router = useRouter();
 
 const isExpanded = ref(false);
 const showIcon = ref(false);
+const isLiked = ref(false);
 
 const product = computed<Product>(
   () => productStore.items[route.params.productId as string]
@@ -24,6 +27,20 @@ const product = computed<Product>(
 
 const toggleReadMore = () => {
   isExpanded.value = !isExpanded.value;
+};
+
+onMounted(() => {
+  isLiked.value = favoriteStore.ids.includes(Number(route.params.productId));
+});
+
+const toggleLiked = (id: string) => {
+  isLiked.value = !isLiked.value;
+  const isInclude = favoriteStore.ids.includes(Number(id));
+  if (!isInclude) {
+    favoriteStore.add(id);
+  } else {
+    favoriteStore.remove(id);
+  }
 };
 
 const showSuccess = async (id: string) => {
@@ -41,25 +58,11 @@ const showSuccess = async (id: string) => {
     <div v-if="!productStore.loaded">
       <CartCardSkeleton />
     </div>
-    <div v-else-if="product" class="w-full h-full pb-[118px]">
+    <div v-else-if="product" class="w-full h-full">
       <Transition name="slide-fade">
         <p v-if="showIcon" class="cart-icon">🛒</p>
       </Transition>
-      <div class="flex justify-between items-center gap-1 mb-5">
-        <button
-          type="button"
-          @click="router.back()"
-        >
-          <ArrowRightIcon />
-        </button>
-        <h2
-          class="text-[#242424] text-base font-semibold leading-[19px]"
-        >
-          Detail
-        </h2>
-        <HeartIcon color="#2A2A2A" />
-      </div>
-      <figure class="my-4">
+      <figure class="mb-4">
         <div class="carousel rounded-box w-full">
           <div
             v-for="image in product.images"
@@ -75,10 +78,18 @@ const showSuccess = async (id: string) => {
         </div>
       </figure>
       <div class="w-full">
-        <h2
-          class="text-[#242424] text-[20px] font-semibold leading-[30px] break-all"
-          v-text="product.title"
-        />
+        <div class="w-full flex justify-between items-start gap-2 mb-2">
+          <h2
+            class="text-[#242424] text-[20px] font-semibold leading-[30px] break-all"
+            v-text="product.title"
+          />
+          <button
+            type="button"
+            @click="toggleLiked(product.id)"
+          >
+            <HeartIcon :color="`${isLiked ? '#C67C4E' : '#2A2A2A'}`" />
+          </button>
+        </div>
         <div class="flex justify-between items-center gap-2">
           <p class="text-[#A2A2A2] text-xs font-normal">
             {{ product.category.name }}
