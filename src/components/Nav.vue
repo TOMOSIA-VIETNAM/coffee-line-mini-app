@@ -2,7 +2,7 @@
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 
-import { BagIcon, ClockIcon, HomeIcon } from "@/components/Base/template/Icons";
+import { BagIcon, ClockIcon, HeartIcon, HomeIcon } from "@/components/Base/template/Icons";
 
 import { useCartStore } from "@/store/cart";
 
@@ -19,6 +19,11 @@ const listNavItem = ref([
     title: "History order",
     icon: ClockIcon,
     path: "/history-order",
+  },
+  {
+    title: "Wishlist",
+    icon: HeartIcon,
+    path: "/favorite",
   },
   {
     title: "Cart",

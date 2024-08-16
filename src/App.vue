@@ -6,12 +6,15 @@ import { usePersistCart } from "./composables/usePersistCart";
 import { useCartStore } from "./store/cart";
 import { useProductStore } from "./store/products";
 import { useCategoryStore } from "@/store/categories";
+import { useFavoriteStore } from "./store/favorite";
 
 const productStore = useProductStore();
+const favoriteStore = useFavoriteStore();
 const cartStore = useCartStore();
 const categoryStore = useCategoryStore();
 
 productStore.fetchAll();
+favoriteStore.fetchAll();
 categoryStore.fetchAll();
 usePersistCart();
 
