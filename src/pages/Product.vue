@@ -37,7 +37,7 @@ const showSuccess = async (id: string) => {
 </script>
 
 <template>
-  <div class="px-8 pt-[30px] w-screen h-screen">
+  <div class="px-4 pt-[30px] w-screen h-screen">
     <div v-if="!productStore.loaded">
       <CartCardSkeleton />
     </div>
@@ -45,13 +45,19 @@ const showSuccess = async (id: string) => {
       <Transition name="slide-fade">
         <p v-if="showIcon" class="cart-icon">🛒</p>
       </Transition>
-      <div class="relative flex items-center gap-1 mb-5">
-        <button type="button" class="items-start absolute left-0 inset-y-0" @click="router.back()">
+      <div class="flex justify-between items-center gap-1 mb-5">
+        <button
+          type="button"
+          @click="router.back()"
+        >
           <ArrowRightIcon />
         </button>
-        <h2 class="w-full text-[#242424] text-base text-center font-semibold leading-[19px]">
+        <h2
+          class="text-[#242424] text-base font-semibold leading-[19px]"
+        >
           Detail
         </h2>
+        <HeartIcon color="#2A2A2A" />
       </div>
       <figure class="my-4">
         <div class="carousel rounded-box w-full">

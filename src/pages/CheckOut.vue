@@ -1,5 +1,5 @@
 <template>
-  <div class="px-8 pt-[30px] w-screen h-screen">
+  <div class="px-4 pt-[30px] w-screen h-screen">
     <div class="w-full h-full pb-[118px] space-y-4">
       <div class="relative flex items-center gap-1 mb-5">
         <button
@@ -15,7 +15,7 @@
           Detail
         </h2>
       </div>
-      <div class="">
+      <div>
         <h3 class="text-base font-semibold text-[#242424] my-3">
           Delivery Address
         </h3>
@@ -25,19 +25,19 @@
             v-if="form.client_name"
             class="text-[#313131] text-sm font-semibold break-all mb-1"
           >
-            {{ form.client_name }}
+            Name: {{ form.client_name }}
           </p>
           <p
             v-if="form.address"
             class="text-[#A2A2A2] text-xs font-normal break-all"
           >
-            {{ form.address }}
+            Address: {{ form.address }}
           </p>
           <p
             v-if="form.phone_number"
             class="text-[#A2A2A2] text-xs font-normal break-all"
           >
-            {{ form.phone_number }}
+            Phone number: {{ form.phone_number }}
           </p>
         </div>
 
@@ -97,15 +97,15 @@
             :key="product.id"
             class="w-full flex justify-between items-center gap-2 overflow-hidden pt-4 px-2 mt-[20px] border-t border-[#E3E3E3]"
           >
-            <div class="max-w-[70%] grid grid-cols-3 gap-2">
+            <div class="w-[70%] flex gap-2">
               <img
                 :src="`${apiUrl}/storage/${product.image}`"
                 :alt="product.title"
-                class="w-[54px] h-[54px] object-cover rounded-xl"
+                class="w-[60px] h-[60px] object-cover rounded-xl"
               />
-              <div class="col-span-2">
+              <div class="w-[70%]">
                 <h2
-                  class="text-base text-[#242424] font-semibold mb-2 line-clamp-2 break-words"
+                  class="text-sm text-[#242424] font-semibold mb-2 line-clamp-2 break-words"
                 >
                   {{ product.title }}
                 </h2>
@@ -114,7 +114,7 @@
                 </p>
               </div>
             </div>
-            <div class="max-w-[30%] flex justify-between items-center gap-2">
+            <div class="grid grid-cols-3 items-center gap-2">
               <button
                 class="flex justify-center items-center border border-[#F9F2ED] w-6 h-6 bg-[#fff] rounded-full hover:bg-[#F9F2ED] p-1"
                 @click="cartStore.remove(product.id)"
@@ -176,8 +176,9 @@
           </div> -->
         </div>
       </div>
-      <div class="h-[165px] w-full bg-[#fff]">
-        <div class="w-full h-[56px] flex justify-between items-center mb-2">
+
+      <div class="sticky bottom-0 h-[130px] w-full bg-[#fff]">
+        <div class="w-full h-[56px] flex justify-between items-center">
           <div class="flex items-center gap-4">
             <WalletIcon />
             <div>
@@ -254,9 +255,8 @@ const errors = ref({
 
 onMounted(async () => {
   const userProfile = await liff.getProfile();
-  lineId.value = userProfile.userId;  
+  lineId.value = userProfile.userId;
 });
-
 
 const validateForm = () => {
   errors.value = { client_name: "", address: "", phone_number: "" };

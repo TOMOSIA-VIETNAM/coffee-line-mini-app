@@ -5,14 +5,17 @@ import ProductCard from "@/components/ProductCard.vue";
 import Search from "@/components/Search.vue";
 import Filter from "@/components/Filter.vue";
 import Nav from "@/components/Nav.vue";
+import { BagIcon } from "@/components/Base/template/Icons";
 
 import { useProductStore } from "@/store/products";
 import { useCategoryStore } from "@/store/categories";
 import { apiUrl, xApiKey } from "@/shared/utils";
 import Product from "@/types/product";
+import { useCartStore } from "@/store/cart";
 
 const productStore = useProductStore();
 const categoryStore = useCategoryStore();
+const cartStore = useCartStore();
 
 const currentPage = ref<number>(1);
 const hasMore = ref<boolean>(true);
@@ -86,10 +89,19 @@ onUnmounted(() => {
   <div
     class="h-[200px] px-[22px] pt-[30px] bg-gradient-to-r from-[#313131] to-[#111]"
   >
-    <h2 class="text-base font-semibold text-[#D8D8D8] leading-[21px]">
-      Enjoy your visit! ☕
-    </h2>
-
+    <div class="flex justify-between items-center">
+      <h2 class="text-base font-semibold text-[#D8D8D8] leading-[21px]">
+        Enjoy your visit! ☕
+      </h2>
+      <router-link :to="`/cart`" class="relative hover:underline">
+        <div
+          class="absolute top-[-4px] right-[-4px] bg-[red] text-[8px] text-[#fff] flex justify-center items-center font-medium w-[15px] h-[15px] rounded-full p-2"
+        >
+          {{ cartStore.cartContent.length }}
+        </div>
+        <BagIcon color="#C67C4E" />
+      </router-link>
+    </div>
     <div class="flex items-center gap-4 mt-[20px]">
       <Search />
       <Filter />
@@ -130,6 +142,7 @@ onUnmounted(() => {
     <button
       type="button"
       v-for="category in categoryStore.list"
+      :key="category.id"
       @click="setCategorySelected(category.id)"
       class="text-center w-fit h-[29px] rounded-md px-[8px] py-[4px] text-sm font-semibold leading-[21px] transition duration-300 ease-in-out hover:bg-amber-700 hover:text-[#fff]"
       :class="{
